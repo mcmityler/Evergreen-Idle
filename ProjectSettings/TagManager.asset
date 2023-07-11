@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Axe
   - Tree
+  - GameManager
+  - AudioManager
   layers:
   - Default
   - TransparentFX

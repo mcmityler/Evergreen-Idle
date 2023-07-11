@@ -1,5 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+Created by:  Tyler McMillan
+Description: This script deals with the axe and swinging / animations and completing swing
+*/
 using UnityEngine;
 
 public class AxeScript : MonoBehaviour
@@ -10,6 +12,8 @@ public class AxeScript : MonoBehaviour
     [SerializeField] Animator _axeAnimator;  //animator to swing
     GameObject _player;
     [SerializeField] float _swingSpeed = 0.5f;
+    [SerializeField] int _axeDmg = 10;
+    GameObject _currentTree = null;
     private void Start()
     {
         _player = transform.parent.gameObject;
@@ -37,6 +41,10 @@ public class AxeScript : MonoBehaviour
 
         }
     }
+    public void SetCurrentTree(GameObject m_currentTree)
+    {
+        _currentTree = m_currentTree;
+    }
     public void ChangeSwing(bool m_canSwing) //change canSwing Variable, also if false stop the current swing if one is on.
     {
         _canSwing = m_canSwing;
@@ -56,6 +64,7 @@ public class AxeScript : MonoBehaviour
     {
         _swingingNow = false; //reset hit anim so you can swing again
         //only allow if its over a tree
+        _currentTree.GetComponent<TreeScript>().DamageTree(_axeDmg);
 
         //spawn particles at particle spawn point
 
