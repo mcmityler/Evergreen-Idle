@@ -17,6 +17,8 @@ public class GameManagerScript : MonoBehaviour
     float _treeCTR = 0;
     [SerializeField] TMP_Text _timeToTextTreeSpawn;
     [SerializeField] List<GameObject> _trees = new List<GameObject>();
+    [SerializeField] GameObject _woodGatheredText;
+    [SerializeField] Color32 _ownedPlotColour;
 
     // Start is called before the first frame update
     void Start()
@@ -63,12 +65,6 @@ public class GameManagerScript : MonoBehaviour
 
         } while (m_canSpawn == false);
     }
-    public void AddPlot(GameObject m_newPlot) 
-    {
-        _treeSpawnPlots.Add(m_newPlot);
-        _treeFull.Add(false);
-        _totalTrees++;
-    }
     public void WoodGathered(int m_woodCost, bool m_isStump, int m_plotNum)
     {
         int m_amount = m_woodCost * _woodMultiplier;
@@ -80,6 +76,22 @@ public class GameManagerScript : MonoBehaviour
         }
         _collectedWoodAmount += m_amount;
         _woodCollectedText.text = ":" + _collectedWoodAmount;
+        GameObject m_gatherText =  Instantiate(_woodGatheredText, _treeSpawnPlots[m_plotNum].transform.position, Quaternion.identity);
+        m_gatherText.GetComponentInChildren<TMP_Text>().text = "+" + m_amount.ToString();
 
+    }
+    public bool PurchasePlot(GameObject m_newPlot, int m_plotCost)
+    {
+        if(m_plotCost <= _collectedWoodAmount)
+        {
+            _collectedWoodAmount -= m_plotCost;
+            _woodCollectedText.text = ":" + _collectedWoodAmount;
+            _treeSpawnPlots.Add(m_newPlot);
+            _treeFull.Add(false);
+            _totalTrees++;
+            m_newPlot.GetComponent<SpriteRenderer>().color = _ownedPlotColour;
+            return true; //tell plot it has been purchased
+        }
+        return false; //tell plot it wasnt purchased aka not enough woodCollected
     }
 }

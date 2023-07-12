@@ -14,6 +14,7 @@ public class AxeScript : MonoBehaviour
     [SerializeField] float _swingSpeed = 0.5f;
     [SerializeField] int _axeDmg = 10;
     GameObject _currentTree = null;
+    GameObject _swingParticles; //particles that spawn on swing ending (aka when axe hits tree), its given from the tree you are on when swing ends.
     private void Start()
     {
         _player = transform.parent.gameObject;
@@ -44,11 +45,16 @@ public class AxeScript : MonoBehaviour
     public void SetCurrentTree(GameObject m_currentTree)
     {
         _currentTree = m_currentTree;
+        if (m_currentTree != null) //ensure you arent setting the current tree to null (happens when you leave the current tree or destroy it)
+        {
+            _swingParticles = _currentTree.GetComponent<TreeScript>().GetTreeHitParticles();
+
+        }
     }
     public void ChangeSwing(bool m_canSwing) //change canSwing Variable, also if false stop the current swing if one is on.
     {
         _canSwing = m_canSwing;
-        if(_canSwing == false)
+        if (_canSwing == false)
         {
             _axeAnimator.SetTrigger("StopSwing");
             _swingingNow = false;
@@ -63,11 +69,18 @@ public class AxeScript : MonoBehaviour
     public void AxeSwingComplete()
     {
         _swingingNow = false; //reset hit anim so you can swing again
-        //only allow if its over a tree
-        _currentTree.GetComponent<TreeScript>().DamageTree(_axeDmg);
+        if (_currentTree != null)
+        {
 
-        //spawn particles at particle spawn point
 
-        //Play hit SFX
+            //only allow if its over a tree
+            _currentTree.GetComponent<TreeScript>().DamageTree(_axeDmg);
+
+            //spawn particles at particle spawn point
+            Instantiate(_swingParticles, _axeParticleSpawnPoint.transform.position, Quaternion.identity);
+
+            //Play hit SFX
+            FindObjectOfType<AudioManager>().Play("AxeChop");
+        }
     }
 }

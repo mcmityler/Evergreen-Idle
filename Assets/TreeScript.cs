@@ -9,8 +9,6 @@ using UnityEngine;
 public class TreeScript : MonoBehaviour
 {
     GameObject _axe;
-    [SerializeField] CircleCollider2D _circleCol;
-    [SerializeField] BoxCollider2D _boxCol;
 
 
     [SerializeField] int _treehealth = 100;
@@ -18,6 +16,7 @@ public class TreeScript : MonoBehaviour
     int _maxHealth = 0;
     [SerializeField] int _woodPerHit = 1;
     int _plotNum = -1;
+    [SerializeField] GameObject _hitParticles;
 
     // Start is called before the first frame update
     void Start()
@@ -40,11 +39,16 @@ public class TreeScript : MonoBehaviour
     {
         _plotNum = m_plotNum;
     }
+    public GameObject GetTreeHitParticles()
+    {
+        return _hitParticles;
+    }
     public void DamageTree(int m_dmg)
     {
         _treehealth -= m_dmg;
         ChangeTreeState();
     }
+    
     void ChangeTreeState() //change image of tree depending on health amount
     {
         if (_treehealth <= 0)
@@ -58,9 +62,6 @@ public class TreeScript : MonoBehaviour
         else if (_treehealth <= _maxHealth * 0.2)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = _treeSprites[3];
-            //remove top half of collider
-            _circleCol.enabled = false;
-            _boxCol.enabled = false;
             //make tree timber here
 
         }
