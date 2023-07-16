@@ -15,6 +15,7 @@ public class AxeScript : MonoBehaviour
     [SerializeField] int _axeDmg = 10;
     GameObject _currentTree = null;
     GameObject _swingParticles; //particles that spawn on swing ending (aka when axe hits tree), its given from the tree you are on when swing ends.
+    bool _autoSwingOn = false;
     private void Start()
     {
         _player = transform.parent.gameObject;
@@ -29,7 +30,7 @@ public class AxeScript : MonoBehaviour
 
 
         //SWING IF YOU CLICK
-        if (Input.GetMouseButton(0) && _canSwing && _swingingNow == false)
+        if ((Input.GetMouseButton(0) || _autoSwingOn == true) && _canSwing && _swingingNow == false && GameObject.FindGameObjectWithTag("GameManager").GetComponent<ShopScript>().IsShopOpen() == false)
         {
             _axeAnimator.SetTrigger("Swing");
             _swingingNow = true;
@@ -82,5 +83,13 @@ public class AxeScript : MonoBehaviour
             //Play hit SFX
             FindObjectOfType<AudioManager>().Play("AxeChop");
         }
+    }
+    public void UpDMG(int m_increaseAmount)
+    {
+        _axeDmg += m_increaseAmount;
+    }
+    public void ChangeAutoSwing(bool m_isAutoSwingOn)
+    {
+        _autoSwingOn = m_isAutoSwingOn;
     }
 }

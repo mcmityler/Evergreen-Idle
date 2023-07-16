@@ -17,6 +17,8 @@ public class TreeScript : MonoBehaviour
     [SerializeField] int _woodPerHit = 1;
     int _plotNum = -1;
     [SerializeField] GameObject _hitParticles;
+    [SerializeField] GameObject _treeFallPrefab;
+    bool _treeFell = false;
 
     // Start is called before the first frame update
     void Start()
@@ -62,8 +64,14 @@ public class TreeScript : MonoBehaviour
         else if (_treehealth <= _maxHealth * 0.2)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = _treeSprites[3];
-            //make tree timber here
+            
+            if(_treeFell == false)//make tree timber here
+            {
+                Instantiate(_treeFallPrefab, this.gameObject.transform.position, Quaternion.identity);
+                //play tree fall sfx here
 
+                _treeFell = true;
+            }
         }
         else if (_treehealth <= _maxHealth * 0.4)
         {

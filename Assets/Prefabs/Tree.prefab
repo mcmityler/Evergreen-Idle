@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 715208023721207247}
   m_Layer: 0
   m_Name: Tree
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,8 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e92082fe6ef75a543bae093f98268c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _circleCol: {fileID: 0}
-  _boxCol: {fileID: 4614702249061715613}
   _treehealth: 100
   _treeSprites:
   - {fileID: 21300000, guid: a72fc64651fe66943ab56520c8c8361a, type: 3}
@@ -109,6 +107,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 176137032ac8ab6419f78e31454541ac, type: 3}
   _woodPerHit: 1
   _hitParticles: {fileID: 7278622860144977541, guid: f88082dcfdce679458443df3b5f22ba4, type: 3}
+  _treeFallPrefab: {fileID: 5949685289562025112, guid: d8d0287f95939744c9241e40b38faf22, type: 3}
 --- !u!61 &4614702249061715613
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+
 public class GameManagerScript : MonoBehaviour
 {
 
@@ -84,8 +86,7 @@ public class GameManagerScript : MonoBehaviour
     {
         if(m_plotCost <= _collectedWoodAmount)
         {
-            _collectedWoodAmount -= m_plotCost;
-            _woodCollectedText.text = ":" + _collectedWoodAmount;
+            SpendWood(m_plotCost);
             _treeSpawnPlots.Add(m_newPlot);
             _treeFull.Add(false);
             _totalTrees++;
@@ -93,5 +94,23 @@ public class GameManagerScript : MonoBehaviour
             return true; //tell plot it has been purchased
         }
         return false; //tell plot it wasnt purchased aka not enough woodCollected
+    }
+    public void SpendWood(int m_amountSpent)
+    {
+        _collectedWoodAmount -= m_amountSpent;
+        _woodCollectedText.text = ":" + _collectedWoodAmount;
+
+    }
+    public int GetWoodCollected()
+    {
+        return _collectedWoodAmount;
+    }
+    public void UpgradeWoodMultiplier(int m_increaseAmount)
+    {
+        _woodMultiplier += m_increaseAmount;
+    }
+    public void ToggleAutoSwing(Toggle m_autoSwingToggle)
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AxeScript>().ChangeAutoSwing( m_autoSwingToggle.isOn);
     }
 }
