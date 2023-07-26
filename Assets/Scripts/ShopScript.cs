@@ -1,3 +1,7 @@
+/*
+Created by:  Tyler McMillan
+Description: This script deals with the shop screen and its upgrades
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,28 +10,29 @@ using TMPro;
 
 public class ShopScript : MonoBehaviour
 {
-    [SerializeField] GameObject _shopScreen;
-    [SerializeField] List<GameObject> _dmgTokenObjs = new List<GameObject>();
-    [SerializeField] List<int> _dmgUpgradesCost = new List<int>();
-    [SerializeField] TMP_Text _damageUpgradeCostText;
-    [SerializeField] int _dmgUpgrades = 0;
+    [SerializeField] List<GameObject> _dmgTokenObjs = new List<GameObject>(); //list of damage tokens that display your upgrades you are at on the shop
+    [SerializeField] List<int> _dmgUpgradesCost = new List<int>(); //list of dmg upgrades cost (goes up as you purchase)
+    [SerializeField] TMP_Text _damageUpgradeCostText; //text that displays dmg upgrade cost
+    [SerializeField] int _dmgUpgrades = 0; //how many dmg upgrades you currently have 
 
-    [SerializeField] List<GameObject> _playerSwingSpeedpeedTokenObjs = new List<GameObject>();
-    [SerializeField] List<int> _playerSwingSpeedUpgradesCost = new List<int>();
-    [SerializeField] List<float> _playerSwingSpeedIncrements = new List<float>();
-    [SerializeField] TMP_Text _playerSwingSpeedUpgradeCostText;
-    [SerializeField] int _playerSwingSpeedUpgrades = 0;
+    [SerializeField] List<GameObject> _playerSwingSpeedpeedTokenObjs = new List<GameObject>(); //list of player swing speed tokens that display your upgrades you are at on the shop
+    [SerializeField] List<int> _playerSwingSpeedUpgradesCost = new List<int>(); //list of player ss upgrade costs (goes up as you buy)
+    [SerializeField] List<float> _playerSwingSpeedIncrements = new List<float>(); //how fast each upgrade makes the player swing
+    [SerializeField] TMP_Text _playerSwingSpeedUpgradeCostText; //text that displayers how much the swing speed upgrade costs
+    [SerializeField] int _playerSwingSpeedUpgrades = 0; //how many player swing speed upgrades have currently been obtained
 
-    GameManagerScript _gmScript;
-    [SerializeField] bool _loadSave = false;
-    bool _isShopOpen = false;
-    // Start is called before the first frame update
+    GameManagerScript _gmScript; //game manager
+    [SerializeField] bool _loadSave = false; //are you loading from a save (aka from your inspectors values)
+    bool _isShopOpen = false; //is the shop currently open or closed
+
     void Start()
     {
-        _gmScript = this.GetComponent<GameManagerScript>();
-        _damageUpgradeCostText.text = "Cost: " + _dmgUpgradesCost[_dmgUpgrades].ToString();
-        _playerSwingSpeedUpgradeCostText.text = "Cost: " + _playerSwingSpeedUpgradesCost[_playerSwingSpeedUpgrades].ToString();
+        _gmScript = this.GetComponent<GameManagerScript>(); //get reference to game manager script
+        _damageUpgradeCostText.text = "Cost: " + _dmgUpgradesCost[_dmgUpgrades].ToString(); //make dmg upgrade text upgrade display correct starting cost
+        _playerSwingSpeedUpgradeCostText.text = "Cost: " + _playerSwingSpeedUpgradesCost[_playerSwingSpeedUpgrades].ToString(); //make player swing speed upgrade text display correct starting cost
+        
 
+        //load from inspector if you have load save on and upgrades
         if (_dmgUpgrades > 0 && _loadSave == true)
         {
             LoadDamageUpgrades(_dmgUpgrades);
@@ -38,7 +43,7 @@ public class ShopScript : MonoBehaviour
         }
     }
 
-    public void UpgradePlayerSwingSpeed()
+    public void UpgradePlayerSwingSpeed() //upgrade player swing speed
     {
         if (_playerSwingSpeedUpgrades < _playerSwingSpeedpeedTokenObjs.Count)
         {
@@ -63,7 +68,7 @@ public class ShopScript : MonoBehaviour
             }
         }
     }
-    public void UpgradePlayerDamage()
+    public void UpgradePlayerDamage()//upgrade player DMG
     {
         if (_dmgUpgrades < _dmgTokenObjs.Count)
         {
@@ -89,7 +94,7 @@ public class ShopScript : MonoBehaviour
             }
         }
     }
-    void LoadDamageUpgrades(int m_dmgUpgrades)
+    void LoadDamageUpgrades(int m_dmgUpgrades) //load player dmg upgrade from save
     {
         _dmgUpgrades = m_dmgUpgrades;
         for (int i = 0; i < _dmgUpgrades; i++)
@@ -101,7 +106,7 @@ public class ShopScript : MonoBehaviour
         _damageUpgradeCostText.text = "Cost: " + _dmgUpgradesCost[_dmgUpgrades].ToString();
 
     }
-    void LoadSpeedUpgrades(int m_speedUpgrades)
+    void LoadSpeedUpgrades(int m_speedUpgrades)//load player swing speed upgrade from save
     {
         _playerSwingSpeedUpgrades = m_speedUpgrades;
 
@@ -122,11 +127,11 @@ public class ShopScript : MonoBehaviour
 
     }
 
-    public void SetShopOpen(bool m_isShopOpen)
+    public void SetShopOpen(bool m_isShopOpen) //set shop open or closed
     {
         _isShopOpen = m_isShopOpen;
     }
-    public bool IsShopOpen()
+    public bool IsShopOpen()//getter for if shop is open or closed
     {
         return _isShopOpen;
     }

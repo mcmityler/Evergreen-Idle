@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance; //instance of audio manager to make sure there is only one in game
     private bool _soundMuted = false; //Should you hear sounds (for sound toggle)
     private bool _musicMuted = true; //should you hear Background music (start on true so that you can toggle false, on awake)
+     Toggle _muteToggle;
     //Initialization
     void Awake()
     {
@@ -34,6 +35,8 @@ public class AudioManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
         }
+        _muteToggle = GameObject.FindGameObjectWithTag("MuteToggle").GetComponent<Toggle>();
+        _soundMuted = _muteToggle.isOn;
         //ToggleBackgroundMusic(); //START BACKGROUND MUSIC
     }
 

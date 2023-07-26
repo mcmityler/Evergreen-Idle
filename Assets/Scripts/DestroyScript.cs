@@ -1,3 +1,7 @@
+/*
+Created by:  Tyler McMillan
+Description: This script deals with destroying whatever object its attatched too after a delay
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +13,5 @@ public class DestroyScript : MonoBehaviour
     void Start()
     {
         Destroy(this.gameObject, _destroyTime);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
